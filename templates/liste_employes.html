@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="container-fluid py-4">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header py-3" style="background-color: #0092d9;color: white;">
+                        <h4>Tableau des Employées:</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table id="tableEmployes">
+                                <thead>
+                                <tr>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        ID
+                                    </th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        RFID N°
+                                    </th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        nom Complet
+                                    </th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        sexe
+                                    </th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        email
+                                    </th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                        tel
+                                    </th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        action
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for item in employes %}
+                                    <tr>
+                                        <td class="align-middle text-center">
+                                            <h6 class="text-xs font-weight-bold mb-0">{{ item.pk }}</h6>
+                                        </td>
+                                        <td class="align-middle text-center">
+                                            <h6 class="text-xs font-weight-bold mb-0">{{ item.num_rfid }}</h6>
+                                        </td>
+                                        <td class="align-middle text-center">
+                                            <h6 class="text-xs font-weight-bold mb-0">{{ item.nom|title }} {{ item.prenom|title }}</h6>
+                                        </td>
+                                        <td class="align-middle text-center">
+                                            <h6 class="text-xs font-weight-bold mb-0">{{ item.sexe }}</h6>
+                                        </td>
+                                        <td class="align-middle text-center">
+                                            <p class="text-xs font-weight-bold mb-0">{{ item.email }}</p>
+                                        </td>
+                                        <td class="align-middle text-center">
+                                            <p class="text-xs font-weight-bold mb-0">{{ item.tel }}</p>
+                                        </td>
+                                        <td class="align-middle text-center">
+                                            <form method="post" action="{% url 'delete_employe' item.pk %}">
+                                                {% csrf_token %}
+
+                                                <a href="{% url 'details' item.pk %}" class="btn btn-success"><i
+                                                        class="fa-solid fa-bars"></i></a>
+                                                <button type="submit" class="btn btn-danger"><i class="fa-solid fa-trash-can"></i></button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $('#tableEmployes').DataTable({
+            responsive: true
+        });
+    </script>
+
+{% endblock %}

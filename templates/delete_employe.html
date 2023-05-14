@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <h2>Confirmer la suppression de "{{ employe.nom }} {{ employe.prenom }}"</h2>
+    <p>Etes-vous sûr que vous voulez supprimer "{{ employe.nom }} {{ employe.prenom }}" avec RFID N° "{{ employe.num_rfid }}" et tout son données?</p>
+    <form method="post" action="{% url 'delete_employe' employe.pk %}">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Oui, supprimez-le</button>
+        <a href="{% url 'list_employes' %}" class="btn btn-secondary">Annuler</a>
+    </form>
+{% endblock %}

@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+    <div class="container mt-3">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header py-3" style="background-color: #0092d9;color: white;">
+                        Details d'Employee
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">{{ employe.nom|title }} {{ employe.prenom|title }}</h5>
+                        <p class="card-text"><span
+                                class="text-uppercase text-xxs font-weight-bolder">Sexe:</span> {{ employe.sexe|title }}
+                        </p>
+                        <p class="card-text"><span
+                                class="text-uppercase text-xxs font-weight-bolder">Email:</span> {{ employe.email }}</p>
+                        <p class="card-text"><span
+                                class="text-uppercase text-xxs font-weight-bolder">Tél:</span> {{ employe.tel }}</p>
+                        <p class="card-text"><span
+                                class="text-uppercase text-xxs font-weight-bolder">RFID N°:</span> {{ employe.num_rfid }}
+                        </p>
+                        <p class="card-text"><span class="text-uppercase text-xxs font-weight-bolder">Date d'enregistrement:</span> {{ employe.date_enregistrement }}
+                        </p>
+                        {#                        <a href="#" class="btn btn-primary">Edit</a>#}
+                    </div>
+                </div>
+            </div>
+
+            <style>
+                .event {
+                    display: flex;
+                    align-items: center;
+                    border-left: 2px solid gray;
+                    padding: 10px;
+                }
+
+                .event:nth-child(odd) {
+                    background: aliceblue;
+                }
+
+
+                .event-date {
+                    flex: 1;
+                    line-height: 18px;
+                    text-align: center;
+                }
+
+                .event-type {
+                    flex: 2;
+                    text-align: center;
+                }
+
+                .event-date p {
+                    margin: 0;
+                }
+
+                .event-date span {
+                    font-size: small;
+                }
+
+                .entry_event {
+                    color: #1ca525;
+                    font-weight: bold;
+                    font-family: cursive;
+                }
+
+                .exit_event {
+                    color: #a91d1d;
+                    font-weight: bold;
+                    font-family: cursive;
+                }
+            </style>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header py-3" style="background-color: #0092d9;color: white;">
+                        Historique d'entrée et de sortie pour aujourd'hui
+                    </div>
+                    <div class="card-body" style="max-height: 65vh;overflow: auto;">
+                        <h5>Nombre d'événements: {{ num_events }}</h5>
+                        {% for event in events %}
+                            <div class="event">
+                                <div class="event-date">
+                                    <p>{{ event.date_event|date:"Y-m-d" }}</p>
+                                    <span>{{ event.time|time:"H:i" }}</span>
+                                </div>
+                                <div class="event-type {% if event.type_event == 'ENTREE' %} entry_event {% else %} exit_event {% endif %}">
+                                    {{ event.type_event }}
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+

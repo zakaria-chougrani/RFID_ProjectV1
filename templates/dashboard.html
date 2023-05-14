@@ -1,0 +1,151 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+    <div class="container">
+        <h1>Dashboard</h1>
+        <div class="row">
+            <div class="col-md-6">
+                <canvas id="entryExitLine"></canvas>
+            </div>
+            <div class="col-md-6">
+                <canvas id="entryExitStackedBar"></canvas>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <canvas id="entryExitPie"></canvas>
+            </div>
+            <div class="col-md-6">
+                <canvas id="entryExitHeatmap"></canvas>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.4.1/dist/chart.min.js"></script>
+
+    <script>
+        // Line Chart
+        var entryExitLineCtx = document.getElementById('entryExitLine').getContext('2d');
+        var entryExitLineChart = new Chart(entryExitLineCtx, {
+            type: 'line',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+                datasets: [{
+                    label: 'Entries',
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1,
+                    data: [35, 50, 45, 60, 70, 65, 80]
+                },
+                    {
+                        label: 'Exits',
+                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        borderWidth: 1,
+                        data: [15, 20, 25, 30, 40, 35, 45]
+                    }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+        // Stacked Bar Chart
+        var entryExitStackedBarCtx = document.getElementById('entryExitStackedBar').getContext('2d');
+        var entryExitStackedBarChart = new Chart(entryExitStackedBarCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+                datasets: [{
+                    label: 'Entries',
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1,
+                    data: [80, 90, 75, 100, 85]
+                },
+                    {
+                        label: 'Exits',
+                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        borderWidth: 1,
+                        data: [40, 30, 50, 45, 60]
+                    },
+                    {
+                        label: 'Sales',
+                        backgroundColor: 'rgba(255, 206, 86, 0.2)',
+                        borderColor: 'rgba(255, 206, 86, 1)',
+                        borderWidth: 1,
+                        data: [20, 15, 25, 30, 35]
+                    }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        stacked: true,
+                        beginAtZero: true
+                    },
+                    x: {
+                        stacked: true
+                    }
+                }
+            }
+        });
+        // Pie Chart
+        var entryExitPieCtx = document.getElementById('entryExitPie').getContext('2d');
+        var entryExitPieChart = new Chart(entryExitPieCtx, {
+            type: 'pie',
+            data: {
+                labels: ['Sales', 'Engineering', 'Marketing', 'Support'],
+                datasets: [{
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)'
+                    ],
+                    borderWidth: 1,
+                    data: [25, 40, 20, 15]
+                }]
+            }
+        });
+        // Heatmap
+        var entryExitHeatmapCtx = document.getElementById('entryExitHeatmap').getContext('2d');
+        var entryExitHeatmapChart = new Chart(entryExitHeatmapCtx, {
+            type: 'heatmap',
+            data: {
+                labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+                datasets: [{
+                    data: [
+                        [35, 20, 15, 25, 30],
+                        [50, 45, 30, 40, 35],
+                        [60, 55, 70, 65, 80],
+                        [25, 30, 40, 35, 45],
+                        [20, 15, 10, 5, 25]
+                    ]
+                }]
+            },
+            options: {
+                scales: {
+                    x: {
+                        ticks: {
+                            callback: function (value, index, values) {
+                                return value + ':00';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+
+{% endblock %}
