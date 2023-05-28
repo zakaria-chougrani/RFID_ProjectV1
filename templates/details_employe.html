@@ -2,6 +2,50 @@
 {% load static %}
 
 {% block content %}
+    <style>
+        .event {
+            display: flex;
+            align-items: center;
+            border-left: 2px solid gray;
+            padding: 10px;
+        }
+
+        .event:nth-child(odd) {
+            background: aliceblue;
+        }
+
+
+        .event-date {
+            flex: 1;
+            line-height: 18px;
+            text-align: center;
+        }
+
+        .event-type {
+            flex: 2;
+            text-align: center;
+        }
+
+        .event-date p {
+            margin: 0;
+        }
+
+        .event-date span {
+            font-size: small;
+        }
+
+        .entry_event {
+            color: #1ca525;
+            font-weight: bold;
+            font-family: cursive;
+        }
+
+        .exit_event {
+            color: #a91d1d;
+            font-weight: bold;
+            font-family: cursive;
+        }
+    </style>
 
     <div class="container mt-3">
         <div class="row">
@@ -28,51 +72,6 @@
                     </div>
                 </div>
             </div>
-
-            <style>
-                .event {
-                    display: flex;
-                    align-items: center;
-                    border-left: 2px solid gray;
-                    padding: 10px;
-                }
-
-                .event:nth-child(odd) {
-                    background: aliceblue;
-                }
-
-
-                .event-date {
-                    flex: 1;
-                    line-height: 18px;
-                    text-align: center;
-                }
-
-                .event-type {
-                    flex: 2;
-                    text-align: center;
-                }
-
-                .event-date p {
-                    margin: 0;
-                }
-
-                .event-date span {
-                    font-size: small;
-                }
-
-                .entry_event {
-                    color: #1ca525;
-                    font-weight: bold;
-                    font-family: cursive;
-                }
-
-                .exit_event {
-                    color: #a91d1d;
-                    font-weight: bold;
-                    font-family: cursive;
-                }
-            </style>
             <div class="col-md-6">
                 <div class="card">
                     <div class="card-header py-3" style="background-color: #0092d9;color: white;">
@@ -91,6 +90,18 @@
                                 </div>
                             </div>
                         {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header py-3" style="background-color: #0092d9;color: white;">
+                        Exportation de tous les données au format excel
+                    </div>
+                    <div class="card-body text-center">
+                        <a href="{% url 'export_csv' employe.pk %}" class="btn btn-primary"> Exporter </a>
                     </div>
                 </div>
             </div>
