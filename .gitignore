@@ -1,0 +1,57 @@
+.idea/
+# Django project files
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+
+# Development environment
+*.env
+
+# Secret keys
+secret_key.txt
+
+# Database
+*.sqlite3
+
+# Static files
+/static/
+
+# Media files
+/media/
+
+# Logs
+*.log
+
+# Virtual environment
+venv/
+
+# Compiled Python bytecode
+*.pyc
+
+# macOS files
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Thumbnails
+._*
+
+# Compiled C++ files
+*.out
+
+# Editor-specific files
+.idea/
+.vscode/
+*.sublime-*
+*.swp
+*.swo
+
+# Ignore local configuration
+local_settings.py
+
+# Ignore deployment files
+deployment/
+
+# Ignore sensitive information
+*.secret
