@@ -2,8 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7a812d78-5f49-4f0e-89d3-78cb2bd10007" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/migrations/0002_alter_entreesortie_employe.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/compte/admin.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/compte/apps.py" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/compte/form.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/compte/migrations/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/compte/models.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/compte/tests.py" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/compte/urls.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/compte/views.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/assets/img/64.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/assets/img/favicon.png" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/templates/base-auth.html" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/templates/compte/acces.html" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/templates/compte/inscription.html" afterDir="false" />
@@ -20,7 +30,6 @@
       <change beforePath="$PROJECT_DIR$/proj/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/settings.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/proj/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/base.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/dashboard.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/dashboard.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/details_employe.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/details_employe.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/footer.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/footer.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/navbar.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/navbar.html" afterDir="false" />
@@ -42,6 +51,7 @@
     <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectId" id="2PwQXjqBMuOBYkhs1DEN2v4gWxt" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
