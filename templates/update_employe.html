@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+    <div class="card">
+        <div class="card-header" style="background-color: #0092d9;color: white;">
+            Ajouter un nouvel employé:
+        </div>
+        <div class="card-body">
+
+            <form method="POST">
+                {% csrf_token %}
+                <div class="mb-3 row">
+                    <div class="col-sm-8"></div>
+                    <label for="inputRfid" class="col-sm-1 col-form-label">RFID N°:</label>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control-plaintext" value = {{ employe.num_rfid }} name="num_rfid"
+                                required>
+                    </div>
+                </div>
+
+                {% if message %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ message}}
+                    </div>
+                {% endif %}
+                <div class="form-group">
+                    <label for="nom">NOM:</label>
+                    <input type="text" class="form-control" value="{{ employe.nom }}" name="nom" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="prenom">PRENOM</label>
+                    <input type="text" class="form-control" value="{{ employe.prenom }}" name="prenom" required>
+                </div>
+                <div class="form-group">
+                    <label for="sexe">SEXE</label>
+                    <select class="form-control" value="{{ employe.sexe|title }}" name="sexe" required>
+                        <option value="">Sélectionnez le sexe</option>
+                        <option value="HOMME" {% if employe.sexe == 'HOMME' %} selected {% endif %} >HOMME</option>
+                        <option value="FEMME" {% if employe.sexe == 'FEMME' %} selected {% endif %}>FEMME</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="email">EMAIL</label>
+                    <input type="email" class="form-control" value="{{ employe.email }}" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="tel">TEL</label>
+                    <input type="text" class="form-control" value="{{ employe.tel }}" name="tel" required>
+                </div>
+                <div class="row pt-4">
+                    <div class="col-auto">
+                        <input type="submit" value="Modifier" class="btn btn-success">
+                    </div>
+                    <div class="col-auto">
+                        <input type="reset" value="Annuler" class="btn btn-light">
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+
+    <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
+    <script>
+        var inputRfid = document.getElementById("inputRfid");
+        const url = 'ws://broker.hivemq.com:8000/mqtt'
+
+        const options = {
+            clean: true,
+            connectTimeout: 4000,
+            clientId: 'duessClient',
+        }
+        const client = mqtt.connect(url, options)
+
+        // subscribe to a topic
+        client.subscribe('duess/rfid/dv1/uid');
+
+        // handle incoming messages
+        client.on('message', function (topic, message) {
+            inputRfid.value = message.toString();
+        });
+    </script>
+
+
+{% endblock %}

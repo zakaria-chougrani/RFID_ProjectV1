@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.mail import send_mail
 from django.utils import timezone
 
 
@@ -29,6 +30,9 @@ class EntreeSortie(models.Model):
     ]
     type_event = models.CharField(max_length=6, choices=TYPE_EVENT)
     time = models.TimeField(auto_now_add=True)
+
+    def est_aujourd_hui(self):
+        return self.date_event == timezone.now().date()
 
 
 class Presence(models.Model):

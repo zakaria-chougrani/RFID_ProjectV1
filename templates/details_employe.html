@@ -68,7 +68,7 @@
                         </p>
                         <p class="card-text"><span class="text-uppercase text-xxs font-weight-bolder">Date d'enregistrement:</span> {{ employe.date_enregistrement }}
                         </p>
-                        {#                        <a href="#" class="btn btn-primary">Edit</a>#}
+                                                <a href="{% url 'update_employe' employe.id %}" class="btn btn-primary">Modifier</a>
                     </div>
                 </div>
             </div>
@@ -81,13 +81,19 @@
                         <h5>Nombre d'événements: {{ num_events }}</h5>
                         {% for event in events %}
                             <div class="event">
+                            <div class="event-date">
+                                    <p>{{ employe.nom|title }} {{ employe.prenom|title }}</p>
+
+                                </div>
                                 <div class="event-date">
                                     <p>{{ event.date_event|date:"Y-m-d" }}</p>
                                     <span>{{ event.time|time:"H:i" }}</span>
                                 </div>
+
                                 <div class="event-type {% if event.type_event == 'ENTREE' %} entry_event {% else %} exit_event {% endif %}">
                                     {{ event.type_event }}
                                 </div>
+
                             </div>
                         {% endfor %}
                     </div>

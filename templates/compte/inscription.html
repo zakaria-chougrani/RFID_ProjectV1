@@ -1,0 +1,59 @@
+{% extends 'base-auth.html' %}
+{% load static %}
+{% block content %}
+
+
+    <div class="row w-100 mx-0">
+        <div class="col-lg-4 mx-auto">
+            <div class="auth-form-light text-left py-5 px-4 px-sm-5 bg-light mt-5"
+                 style="box-shadow: 1px 1px 5px lightskyblue;border-radius: 5px;">
+                <div class="text-center">
+                    <img src="{% static '/assets/img/favicon.png' %}" alt="logo">
+                    <h4 class="text-primary">X-Control</h4>
+                </div>
+                <h6 class="font-weight-light">L'inscription est facile. Cela ne prend que quelques secondes</h6>
+                <form class="pt-3" method="POST">
+                    {% csrf_token %}
+
+                    <div class="form-group">
+                        {{ form.username }}
+                    </div>
+                    <div class="form-group">
+                        {{ form.email }}
+                    </div>
+                    <div class="form-group">
+                        {{ form.password1 }}
+                    </div>
+
+                    <div class="form-group">
+                        {{ form.password2 }}
+                    </div>
+                    {{ form.errors }}
+
+
+                    <button class="btn btn-primary btn-lg btn-block">S'INSCRIRE</button>
+                    <div class="text-center mt-4 font-weight-light">
+                        Vous avez déjà un compte? <a href="{% url 'acces' %} "
+                                                     class="text-primary">Connexion</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+
+    <script>
+        var form_fields = document.getElementsByTagName('input')
+        form_fields[1].placeholder = 'Nom d utilisateur';
+        form_fields[2].placeholder = 'Email';
+        form_fields[3].placeholder = 'Mot de passe';
+        form_fields[4].placeholder = 'Confirmer Mot de passe';
+
+
+        for (var field in form_fields) {
+            form_fields[field].className += ' form-control'
+        }
+    </script>
+
+{% endblock %}
