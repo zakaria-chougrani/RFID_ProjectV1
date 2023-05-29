@@ -1,9 +1,12 @@
 import paho.mqtt.client as mqtt
+
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
 
 from .models import Employe, EntreeSortie
+
+from django.shortcuts import render
 
 
 # zakaria
@@ -47,6 +50,38 @@ def add_employe(request):
         return render(request, 'add_empl.html')
 
 
+
+def update_employe(request, pk):
+    if request.method == 'POST':
+        employe = get_object_or_404(Employe, pk=pk)
+
+        #new_num_rfid = request.POST.get('num_rfid')
+        new_nom = request.POST.get('nom')
+        new_prenom = request.POST.get('prenom')
+        new_sexe = request.POST.get('sexe')
+        new_email = request.POST.get('email')
+        new_tel = request.POST.get('tel')
+
+
+        #employe.num_rfid = new_num_rfid
+        employe.nom = new_nom
+        employe.prenom = new_prenom
+        employe.sexe = new_sexe
+        employe.email = new_email
+        employe.tel = new_tel
+
+        employe.save()
+        return render(request, 'update_employe.html', {'employe': employe})
+    else:
+        employe = get_object_or_404(Employe, pk=pk)
+        return render(request, 'update_employe.html', {'employe': employe})
+
+
+
+
+
+
+
 def delete_employe_view(request, pk):
     employe = get_object_or_404(Employe, pk=pk)
     if request.method == 'POST':
@@ -56,7 +91,14 @@ def delete_employe_view(request, pk):
 
 
 def dashboard(request):
-    return render(request, 'dashboard.html')
+    employes = Employe.objects.all()
+    entree_sorties = EntreeSortie.objects.all().order_by('-date_event')[:3]
+    events = EntreeSortie.objects.count()
+    context1 = {
+        'entree_sorties': entree_sorties,'employes': employes, 'events':events
+    }
+    return render(request, 'dashboard.html', context1)
+
 
 
 def on_connect(client, userdata, flags, rc):

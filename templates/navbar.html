@@ -2,7 +2,7 @@
 
 <nav class="navbar navbar-expand-lg navbar-light"
      style="min-height: 80px;background: linear-gradient(180deg, #0092d9, transparent);">
-    <a class="navbar-brand" href="#"><img src="{% static 'assets/img/logoG.png' %}" alt="dash" style="height: 60px"></a>
+    <a class="navbar-brand" href="#"><img src="{% static 'assets/img/favicon.png' %}" alt="dash" style="height: 60px"></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#sidebar" aria-controls="sidebar"
             aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -19,13 +19,19 @@
             <li class="nav-item mx-3 {% if request.path == '/add_employe' %}active{% endif %}">
                 <a class="nav-link" href="{% url 'add_employe' %}">
                     <img src="{% static 'assets/img/add-user.png' %}" alt="dash">
-                    Ajouter employéeeeeee
+                    Ajouter employée
                 </a>
             </li>
             <li class="nav-item mx-3 {% if request.path == '/list_employes' %}active{% endif %}">
                 <a class="nav-link" href="{% url 'list_employes' %}">
                     <img src="{% static 'assets/img/list.png' %}" alt="dash">
                     Liste des Employées
+                </a>
+            </li>
+        <li class="nav-item mx-3 {% if request.path == '/list_employes' %}active{% endif %}">
+                <a class="nav-link" href="{% url 'quitter' %}">
+                    <img src="{% static 'assets/img/64.png' %}" alt="dash">
+                    Se Déconnecter
                 </a>
             </li>
         </ul>

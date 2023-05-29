@@ -6,9 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>{% block title %}Borne RFID{% endblock %}</title>
+    <title>X-Control</title>
 
-
+    <link rel="shortcut icon" href="{% static '/assets/img/favicon.png'%}" />
     <link href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" rel="stylesheet"/>
     <link rel="stylesheet" type="text/css"
           href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.dataTables.min.css">
@@ -28,10 +28,11 @@
 </head>
 
 <body>
-    {% include 'navbar.html' %}
-
+{% include 'navbar.html' %}
     <main class="container">
         {% block content %}
+
+
         {% endblock %}
     </main>
 

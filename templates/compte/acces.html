@@ -1,0 +1,41 @@
+{% extends 'base-auth.html' %}
+{% load static %}
+{% block content %}
+
+
+    <div class="row w-100 mx-0">
+        <div class="col-lg-4 mx-auto">
+            <div class="py-5 px-4 px-sm-5 bg-light mt-5" style="box-shadow: 1px 1px 5px lightskyblue;border-radius: 5px">
+                <div class="text-center">
+                    <img src="{% static '/assets/img/favicon.png' %}" alt="logo">
+                    <h4 class="text-primary">X-Control</h4>
+                </div>
+                <h6 class="font-weight-light">Connectez-vous pour continuer.</h6>
+                <form class="pt-3" method="POST" action="">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <input type="text" name="username" class="form-control form-control-lg"
+                               id="exampleInputEmail1" placeholder="Nom d'utilisateur">
+                    </div>
+                    <div class="form-group">
+                        <input type="password" name="password" class="form-control form-control-lg"
+                               id="exampleInputPassword1" placeholder="Mot de passe">
+                    </div>
+                    <div class="mt-3">
+                        <input class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn"
+                               type="submit" value="S'IDENTIFIER">
+                    </div>
+
+                    <div class="text-center mt-4 font-weight-light">
+                        Vous n'avez pas de compte ? <a href="{% url 'inscription' %}"
+                                                       class="text-primary">Créer</a>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+
+
+{% endblock %}
