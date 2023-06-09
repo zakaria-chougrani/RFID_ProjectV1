@@ -1,6 +1,5 @@
 {% extends 'base.html' %}
 {% load static %}
-
 {% block content %}
     <div class="container">
         <h1>Dashboard</h1>
@@ -38,5 +37,61 @@
                 </div>
             </div>
         </div>
+        <br>
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header py-3" style="background-color: #0092d9;color: white;">
+                        <h4>Rapport d'entrée/sortie d'employé Aujourd'hui</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table id="tableEntryExite">
+                                <thead>
+                                <tr>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        Employee
+                                    </th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        Première entrée
+                                    </th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        Dernière sortie
+                                    </th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        durée totale du travail
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for item in report %}
+                                    <tr>
+                                        <td class="align-middle text-center">
+                                            <h6 class="text-xs font-weight-bold mb-0">{{ item.Employe_nom|title }} {{ item.Employe_prenom|title}}</h6>
+                                        </td>
+                                        <td class="align-middle text-center">
+                                            <h6 class="text-xs font-weight-bold mb-0">{{ item.premier_entre|default:"No entry recorded"|time:"H:i" }}</h6>
+                                        </td>
+                                        <td class="align-middle text-center">
+                                            <h6 class="text-xs font-weight-bold mb-0">{{ item.dernier_sortie|default:"No exit recorded"|time:"H:i" }}</h6>
+                                        </td>
+                                        <td class="align-middle text-center">
+                                            <h6 class="text-xs font-weight-bold mb-0">{{ item.total_work_duration}}</h6>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+    <script>
+        $('#tableEntryExite').DataTable({
+            responsive: true
+        });
+    </script>
 {% endblock %}
