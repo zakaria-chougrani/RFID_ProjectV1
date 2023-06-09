@@ -101,22 +101,23 @@ def dashboard(request):
         history_events = EntreeSortie.objects.filter(employe=employe, date_event=current_date)
 
         for i in range(0, len(history_events), 2):
-            entry = history_events[i]
-            exit_ = history_events[i + 1]
-            time_entry = datetime.combine(datetime.today().date(), entry.time)
-            time_exit = datetime.combine(datetime.today().date(), exit_.time)
+            if history_events[i] and history_events[i + 1]:
+                entry = history_events[i]
+                exit_ = history_events[i + 1]
+                time_entry = datetime.combine(datetime.today().date(), entry.time)
+                time_exit = datetime.combine(datetime.today().date(), exit_.time)
 
-            time_difference = time_exit - time_entry
-            total_work_duration += time_difference
+                time_difference = time_exit - time_entry
+                total_work_duration += time_difference
 
-            total_duration = timedelta(seconds=total_work_duration.total_seconds())
+                total_duration = timedelta(seconds=total_work_duration.total_seconds())
 
-            total_seconds = total_duration.total_seconds()
+                total_seconds = total_duration.total_seconds()
 
-            hours, remainder = divmod(total_seconds, 3600)
-            minutes, seconds = divmod(remainder, 60)
+                hours, remainder = divmod(total_seconds, 3600)
+                minutes, seconds = divmod(remainder, 60)
 
-            duration_formatted = f"{hours:.0f}h {minutes:.0f}min {seconds:.0f}s"
+                duration_formatted = f"{hours:.0f}h {minutes:.0f}min {seconds:.0f}s"
 
         report.append({
             'Employe_nom': employe.nom,
