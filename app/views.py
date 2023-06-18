@@ -2,6 +2,7 @@ from datetime import datetime
 from datetime import timedelta
 
 import paho.mqtt.client as mqtt
+from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect
 from django.shortcuts import render
@@ -10,18 +11,17 @@ from django.views.decorators.csrf import csrf_exempt
 from .models import Employe, EntreeSortie
 
 
-# zakaria
+@login_required(login_url='acces')
 def list_employes(request):
     employes = Employe.objects.all()
     return render(request, 'liste_employes.html', {'employes': employes})
-
-
+@login_required(login_url='acces')
 def details_employe(request, pk):
     employe = get_object_or_404(Employe, pk=pk)
     events = employe.entree_sorties.filter(employe=employe, date_event=datetime.now().date()).order_by("-time")
     num_events = events.count()
     return render(request, 'details_employe.html', {'employe': employe, 'events': events, 'num_events': num_events})
-
+@login_required(login_url='acces')
 @csrf_exempt
 def lecture_rfid(request):
     if request.method == 'POST':
@@ -46,7 +46,7 @@ def lecture_rfid(request):
 
 
 
-
+@login_required(login_url='acces')
 @csrf_exempt
 def add_employe(request):
     if request.method == 'POST':
@@ -74,7 +74,7 @@ def add_employe(request):
     else:
         return render(request, 'add_empl.html')
 
-
+@login_required(login_url='acces')
 def update_employe(request, pk):
     if request.method == 'POST':
         employe = get_object_or_404(Employe, pk=pk)
@@ -99,7 +99,7 @@ def update_employe(request, pk):
         employe = get_object_or_404(Employe, pk=pk)
         return render(request, 'update_employe.html', {'employe': employe})
 
-
+@login_required(login_url='acces')
 def delete_employe_view(request, pk):
     employe = get_object_or_404(Employe, pk=pk)
     if request.method == 'POST':
@@ -107,7 +107,7 @@ def delete_employe_view(request, pk):
         return redirect('list_employes')
     return render(request, 'delete_employe.html', {'employe': employe})
 
-
+@login_required(login_url='acces')
 def dashboard(request):
     current_date = datetime.now()
     employee_count = Employe.objects.count()
