@@ -1,0 +1,130 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <style>
+        #scantag {
+            animation: anim 2s infinite;
+            text-align: center;
+            margin-top: 5%;
+        }
+
+        @keyframes anim {
+            0%{opacity: 0;}
+            50%{opacity: 1;}
+            100%{opacity: 0;}
+        }
+
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <div class="container">
+
+        <h1 id="scantag">Scannez votre Carte/Tag </h1>
+        <div class="row justify-content-center">
+            <div class="col-sm-6">
+                <div class=" p-4 rounded">
+                    <div id="employe-info" style="display: none;">
+                        <h5 class="card-title text-center" id="employe-num-rfid"></h5>
+                        <table class="table table-borderless">
+                            <tbody>
+                            <tr>
+                                <th class="text-uppercase text-xxs font-weight-bolder">Nom:</th>
+                                <td><span id="employe-nom"></span></td>
+                            </tr>
+                            <tr>
+                                <th class="text-uppercase text-xxs font-weight-bolder">Prénom:</th>
+                                <td><span id="employe-prenom"></span></td>
+                            </tr>
+                            <tr>
+                                <th class="text-uppercase text-xxs font-weight-bolder">Sexe:</th>
+                                <td><span id="employe-sexe"></span></td>
+                            </tr>
+                            <tr>
+                                <th class="text-uppercase text-xxs font-weight-bolder">Email:</th>
+                                <td><span id="employe-email"></span></td>
+                            </tr>
+                            <tr>
+                                <th class="text-uppercase text-xxs font-weight-bolder">Tél:</th>
+                                <td><span id="employe-tel"></span></td>
+                            </tr>
+                            <tr>
+
+                            <tr>
+                                <th class="text-uppercase text-xxs font-weight-bolder">Date d'enregistrement:</th>
+                                <td><span id="employe-date-enregistrement"></span></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div id="employe-non-enregistre" style="display: none;">
+                        <p style="text-align: center; font-weight: bolder">L'employé(e) n'est pas enregistré(e).</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            let inputRfid = $("#inputRfid").val();
+
+
+            function verifierEmploye(inputRfid) {
+                $.ajax({
+                    url: "{% url 'lecture_rfid' %}",
+                    type: "POST",
+                    dataType: "json",
+                    data: {
+                        'num_rfid': inputRfid,
+                        'csrfmiddlewaretoken': '{{ csrf_token }}'
+                    },
+                    success: function (response) {
+                        if (response.success) {
+                            var employe = response.employe;
+                            $("#employe-nom").text(employe.nom);
+                            $("#employe-prenom").text(employe.prenom);
+                            $("#employe-sexe").text(employe.sexe);
+                            $("#employe-email").text(employe.email);
+                            $("#employe-tel").text(employe.tel);
+                            $("#employe-num-rfid").text(employe.num_rfid);
+                            $("#employe-date-enregistrement").text(employe.date_enregistrement);
+                            $("#employe-info").show();
+                            $("#employe-non-enregistre").hide();
+                        } else {
+                            $("#employe-info").hide();
+                            $("#employe-non-enregistre").show();
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.log(error);
+                    }
+                });
+            }
+
+            const url = 'ws://broker.hivemq.com:8000/mqtt'
+
+            const options = {
+                clean: true,
+                connectTimeout: 4000,
+                clientId: 'duessClient',
+            }
+            const client = mqtt.connect(url, options)
+
+            // subscribe to a topic
+            client.subscribe('duess/rfid/dv1/uid');
+
+            // handle incoming messages
+            client.on('message', function (topic, message) {
+                //inputRfid.value = message.toString();
+                console.log(message.toString());
+                verifierEmploye(message.toString())
+            });
+
+            $('#tableEntryExite').DataTable({
+                responsive: true
+            });
+        });
+
+    </script>
+{% endblock %}

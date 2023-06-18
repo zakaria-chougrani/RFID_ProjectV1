@@ -2,7 +2,7 @@
 
 <nav class="navbar navbar-expand-lg navbar-light"
     style="min-height: 80px;background: linear-gradient(180deg, #0092d9, transparent);">
-    <a class="navbar-brand" href="#"><img src="{% static 'assets/img/logoG.png' %}" alt="dash" style="height: 60px"></a>
+
 
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#sidebar" aria-controls="sidebar"
         aria-expanded="false" aria-label="Toggle navigation">
@@ -14,19 +14,26 @@
             <li class="nav-item mx-3 {% if request.path == '/' %}active{% endif %}">
                 <a class="nav-link" href="/">
                     <img src="{% static 'assets/img/dash-icon.png' %}" alt="dash">
-                    Dashboard
+                    Tableau de bord
                 </a>
             </li>
             <li class="nav-item mx-3 {% if request.path == '/add_employe' %}active{% endif %}">
                 <a class="nav-link" href="{% url 'add_employe' %}">
                     <img src="{% static 'assets/img/add-user.png' %}" alt="dash">
-                    Ajouter employée
+                    Ajouter employé
                 </a>
             </li>
+
             <li class="nav-item mx-3 {% if request.path == '/list_employes' %}active{% endif %}">
                 <a class="nav-link" href="{% url 'list_employes' %}">
                     <img src="{% static 'assets/img/list.png' %}" alt="dash">
-                    Liste des Employées
+                    Liste des Employés
+                </a>
+            </li>
+        <li class="nav-item mx-3 {% if request.path == '/lecture_rfid' %}active{% endif %}">
+                <a class="nav-link" href="{% url 'lecture_rfid' %}">
+                    <img src="{% static 'assets/img/rfid.png' %}" alt="dash">
+                    Lecteur RFID
                 </a>
             </li>
         <li class="nav-item mx-3 {% if request.path == '/list_employes' %}active{% endif %}">

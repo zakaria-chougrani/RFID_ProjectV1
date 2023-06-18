@@ -2,6 +2,7 @@ from datetime import datetime
 from datetime import timedelta
 
 import paho.mqtt.client as mqtt
+from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
@@ -20,6 +21,30 @@ def details_employe(request, pk):
     events = employe.entree_sorties.filter(employe=employe, date_event=datetime.now().date()).order_by("-time")
     num_events = events.count()
     return render(request, 'details_employe.html', {'employe': employe, 'events': events, 'num_events': num_events})
+
+@csrf_exempt
+def lecture_rfid(request):
+    if request.method == 'POST':
+        num_rfid = request.POST.get('num_rfid', '')
+
+        try:
+            employe = Employe.objects.get(num_rfid=num_rfid)
+            employe_data = {
+                'nom': employe.nom,
+                'prenom': employe.prenom,
+                'sexe': employe.sexe,
+                'email': employe.email,
+                'tel': employe.tel,
+                'num_rfid': employe.num_rfid,
+                'date_enregistrement': employe.date_enregistrement,
+            }
+            return JsonResponse({'success': True, 'employe': employe_data})
+        except Employe.DoesNotExist:
+            return JsonResponse({'success': False})
+
+    return render(request, 'lecture_rfid.html')
+
+
 
 
 @csrf_exempt
@@ -84,32 +109,34 @@ def delete_employe_view(request, pk):
 
 
 def dashboard(request):
-    global duration_formatted
     current_date = datetime.now()
     employee_count = Employe.objects.count()
     entry_exits = EntreeSortie.objects.filter(date_event=current_date).values('employe').distinct()
     report = []
-    total_work_duration = timedelta()
+    employee_count_p = 0  # Compteur pour les employés présents
+    employee_count_a = 0  # Compteur pour les employés absents
 
     for entry_exit in entry_exits:
         employe_id = entry_exit['employe']
         employe = Employe.objects.get(pk=employe_id)
-        first_entry = EntreeSortie.objects.filter(employe=employe, date_event=current_date,
-                                                  type_event='ENTREE').order_by('time').first()
-        last_exit = EntreeSortie.objects.filter(employe=employe, date_event=current_date, type_event='SORTIE').order_by(
-            '-time').first()
+        first_entry = EntreeSortie.objects.filter(employe=employe, date_event=current_date, type_event='ENTREE').order_by('time').first()
+        last_exit = EntreeSortie.objects.filter(employe=employe, date_event=current_date, type_event='SORTIE').order_by('-time').first()
         history_events = EntreeSortie.objects.filter(employe=employe, date_event=current_date)
 
+        total_work_duration = timedelta()  # Réinitialisation de la durée de travail pour chaque employé
+        duration_formatted = ""  # Réinitialisation du format de la durée pour chaque employé
+
         for i in range(0, len(history_events), 2):
-            if history_events[i] and history_events[i + 1]:
-                entry = history_events[i]
-                exit_ = history_events[i + 1]
-                time_entry = datetime.combine(datetime.today().date(), entry.time)
+            entry = history_events[i]
+            exit_ = history_events[i + 1] if i + 1 < len(history_events) else None
+
+            time_entry = datetime.combine(datetime.today().date(), entry.time)
+
+            if exit_:
                 time_exit = datetime.combine(datetime.today().date(), exit_.time)
 
                 time_difference = time_exit - time_entry
                 total_work_duration += time_difference
-
                 total_duration = timedelta(seconds=total_work_duration.total_seconds())
 
                 total_seconds = total_duration.total_seconds()
@@ -118,6 +145,16 @@ def dashboard(request):
                 minutes, seconds = divmod(remainder, 60)
 
                 duration_formatted = f"{hours:.0f}h {minutes:.0f}min {seconds:.0f}s"
+            else:
+                exit_ = None
+
+        if entry:
+            employee_count_p += 1  # Incrémenter le compteur des employés présents
+            employee_count_a = employee_count - employee_count_p
+        if exit_:
+            employee_count_p -= 1  # Incrémenter le compteur des employés présents
+            employee_count_a = employee_count - employee_count_p
+
 
         report.append({
             'Employe_nom': employe.nom,
@@ -127,8 +164,14 @@ def dashboard(request):
             'total_work_duration': f'{duration_formatted}'
         })
 
-    context = {'report': report,'employee_count':employee_count}
+    context = {
+        'report': report,
+        'employee_count_p': employee_count_p,
+        'employee_count_a': employee_count_a,
+        'employee_count': employee_count
+    }
     return render(request, 'dashboard.html', context)
+
 
 
 def on_connect(client, userdata, flags, rc):

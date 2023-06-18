@@ -58,8 +58,8 @@ def schedule_email():
         # Prepare the email content
         subject = f'Daily Employee Entry/Exit Report - {current_date}'
         message = '\n'.join(report)
-        from_email = 'chougranizakaria@gmail.com'
-        to_email = ['chougranizakaria@gmail.com']
+        from_email = 'be.labzour@gmail.com'
+        to_email = ['be.labzour@gmail.com']
 
         # Send the email
         send_mail(subject, message, from_email, to_email)

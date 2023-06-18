@@ -12,5 +12,7 @@ urlpatterns = [
     path('employe/<int:pk>/delete/', views.delete_employe_view, name='delete_employe'),
     path('csv/<int:pk>', exporter.export_csv, name='export_csv'),
     path('compte/', include('compte.urls')),
+    path("lecture_rfid", views.lecture_rfid, name="lecture_rfid"),
+
 ]
 connect_to_mqtt()

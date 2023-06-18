@@ -1,13 +1,25 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
+    <style>
+        .col-sm {
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+            transition: 0.3s;
+            width: 40%;
+            border-radius: 5px;
+            text-align: center;
+            background-color: lightblue;
+            font-weight: bold;
+        }
+
+    </style>
     <div class="container">
-        <h1>Dashboard</h1>
+        <h1 style="padding-bottom: 15px">Tableau de bord</h1>
         <div class="row">
             <div class="col-sm">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">Nombre des employée</h5>
+                        <h5 class="card-title">Nombre Total d'employés</h5>
                         <p class="card-text text-center">{{ employee_count }}</p>
                     </div>
                 </div>
@@ -15,27 +27,20 @@
             <div class="col-sm">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">L'heure de premier entrée</h5>
-                        <p class="card-text text-center">8h30min</p>
+                        <h5 class="card-title">Nombre d'employé(s) present(s)</h5>
+                        <p class="card-text text-center">{{ employee_count_p }}</p>
                     </div>
                 </div>
             </div>
             <div class="col-sm">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">L'heure de dernier sortée</h5>
-                        <p class="card-text text-center">17h22min</p>
+                        <h5 class="card-title">Nombre d'employé(s) absent(s)</h5>
+                        <p class="card-text text-center">{{ employee_count_a }}</p>
                     </div>
                 </div>
             </div>
-            <div class="col-sm">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Nombre d'absences</h5>
-                        <p class="card-text text-center">0</p>
-                    </div>
-                </div>
-            </div>
+
         </div>
         <br>
         <div class="row">
@@ -67,16 +72,18 @@
                                 {% for item in report %}
                                     <tr>
                                         <td class="align-middle text-center">
-                                            <h6 class="text-xs font-weight-bold mb-0">{{ item.Employe_nom|title }} {{ item.Employe_prenom|title}}</h6>
+                                            <h6 class="text-xs font-weight-bold mb-0">{{ item.Employe_nom|title }} {{ item.Employe_prenom|title }}</h6>
                                         </td>
                                         <td class="align-middle text-center">
-                                            <h6 class="text-xs font-weight-bold mb-0">{{ item.premier_entre|default:"No entry recorded"|time:"H:i" }}</h6>
+                                            <h6 class="text-xs font-weight-bold mb-0">
+                                                {{ item.premier_entre|default:"No entry recorded"|time:"H:i" }}</h6>
                                         </td>
                                         <td class="align-middle text-center">
-                                            <h6 class="text-xs font-weight-bold mb-0">{{ item.dernier_sortie|default:"No exit recorded"|time:"H:i" }}</h6>
+                                            <h6 class="text-xs font-weight-bold mb-0">
+                                                {{ item.dernier_sortie|default:"No exit recorded"|time:"H:i" }}</h6>
                                         </td>
                                         <td class="align-middle text-center">
-                                            <h6 class="text-xs font-weight-bold mb-0">{{ item.total_work_duration}}</h6>
+                                            <h6 class="text-xs font-weight-bold mb-0">{{ item.total_work_duration }}</h6>
                                         </td>
                                     </tr>
                                 {% endfor %}
