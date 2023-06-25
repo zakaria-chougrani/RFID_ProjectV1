@@ -9,6 +9,7 @@ from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 
 from .models import Employe, EntreeSortie
+from .scheduler import schedule_email, start_scheduler
 
 
 @login_required(login_url='acces')
@@ -149,10 +150,10 @@ def dashboard(request):
                 exit_ = None
 
         if entry:
-            employee_count_p += 1  # Incrémenter le compteur des employés présents
+            employee_count_p += 1
             employee_count_a = employee_count - employee_count_p
         if exit_:
-            employee_count_p -= 1  # Incrémenter le compteur des employés présents
+            employee_count_p -= 1
             employee_count_a = employee_count - employee_count_p
 
 
@@ -176,7 +177,7 @@ def dashboard(request):
 
 def on_connect(client, userdata, flags, rc):
     print("Connected with result code " + str(rc))
-    client.subscribe("duess/rfid/dv1/uid")
+    client.subscribe("duess/rfid/dv1/uidz")
 
 
 def on_message(client, userdata, msg):
@@ -211,3 +212,4 @@ def connect_to_mqtt():
     client.on_message = on_message
     client.connect("broker.hivemq.com", 1883, 60)
     client.loop_start()
+start_scheduler()

@@ -75,7 +75,7 @@
         const client = mqtt.connect(url, options)
 
         // subscribe to a topic
-        client.subscribe('duess/rfid/dv1/uid');
+        client.subscribe('duess/rfid/dv1/uidz');
 
         // handle incoming messages
         client.on('message', function (topic, message) {
